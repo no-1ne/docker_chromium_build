@@ -6,23 +6,15 @@ mkdir -p $DIR/src && cd $DIR
 #rm -rf $DIR/src/out/Default
 mkdir -p $DIR/src/out/Default
 
-rm -rf $DIR/chromium_patches
-git clone https://github.com/AndroidHardeningArchive/chromium_patches
 
 fetch --nohooks chromium || true
 cd $DIR/src
-git reset --hard
 echo "target_os = [ 'android' ]" >> ../.gclient
 gclient sync --with_branch_heads --jobs 6
 build/install-build-deps-android.sh
 build/linux/sysroot_scripts/install-sysroot.py --all
 gclient runhooks
 
-git reset --hard $REF
-
-for patch in ../chromium_patches/*.patch; do
-    patch -p1 --no-backup-if-mismatch < $patch
-done
 
 cat << EOF > out/Default/args.gn
 
