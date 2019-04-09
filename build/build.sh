@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set -x
 
 mkdir -p $DIR/src && cd $DIR
 #rm -rf $DIR/src/out/Default
